@@ -1,4 +1,14 @@
 from pygame import *
+#hi
+class Asteroid:
+    def __init__(self, position, size):
+        self.position = position
+        self.size = size
+        self.AsteroidImage = image.load("")
+        pass
+        
+    def drawAsteroid(self):
+        self.rect = window.blit(self.AsteroidImage, self.position)
 
 class Ship:
     def __init__(self, position):
@@ -27,3 +37,4 @@ while True:
     player.drawShip()
     display.flip()
     timer.tick(60)
+    
