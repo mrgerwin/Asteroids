@@ -51,7 +51,7 @@ while True:
     
     window.fill(black)
     player.drawShip()
-    afor asteroid in asteroids:
+    for asteroid in asteroids:
         asteroid.drawAsteroid()
     display.flip()
     timer.tick(60)
