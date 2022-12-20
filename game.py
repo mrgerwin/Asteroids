@@ -1,10 +1,10 @@
 from pygame import *
-#hi
+
 class Asteroid:
     def __init__(self, position, size):
         self.position = position
         self.size = size
-        self.AsteroidImage = image.load("")
+        self.AsteroidImage = image.load("Asteroid.jpeg")
         pass
         
     def drawAsteroid(self):
