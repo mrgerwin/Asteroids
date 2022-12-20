@@ -4,7 +4,7 @@ class Asteroid:
     def __init__(self, position, size):
         self.position = position
         self.size = size
-        self.AsteroidImage = image.load("Asteroid.jpeg")
+        self.AsteroidImage = image.load("Asteroid.png")
         
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
@@ -16,6 +16,8 @@ class Asteroid:
     def collide(self):
         if self.rect.colliderect(player):
             
+        if self.position == 0:
+            self.possition = 800        
 
 class Ship:
     def __init__(self, position):
@@ -26,8 +28,8 @@ class Ship:
         self.rect = window.blit(self.shipImage, [400,400])
 
 screen_size = [800,800]
-window = display.set_mode(screen_size)
-
+window = display.set_mode(screen_size)\
+         
 timer = time.Clock()
 black = [0,0,0]
 
