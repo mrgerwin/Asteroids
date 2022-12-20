@@ -15,10 +15,12 @@ class Asteroid:
         
     def collide(self):
         if self.rect.colliderect(player):
+            pass
+            
             
     def AsteroidTeleport(self, position):
         if self.position == 0:
-            self.possition = 800        
+            self.possition = 800
 
 class Ship:
     def __init__(self, position):
