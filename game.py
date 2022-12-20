@@ -4,7 +4,7 @@ class Asteroid:
     def __init__(self, position, size):
         self.position = position
         self.size = size
-        self.AsteroidImage = image.load("Asteroid.jpeg")
+        self.AsteroidImage = image.load("Atseroid.jpg")
         pass
         
     def drawAsteroid(self):
@@ -26,6 +26,8 @@ black = [0,0,0]
 
 player = Ship([400,400])
 
+asteroid = Asteroid([25,25], 2)
+
 while True:
     for event in event.get():
         if event.type == QUIT:
@@ -35,6 +37,7 @@ while True:
     
     window.fill(black)
     player.drawShip()
+    asteroid.drawAsteroid()
     display.flip()
     timer.tick(60)
     
