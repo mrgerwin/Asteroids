@@ -12,6 +12,8 @@ class Asteroid:
     def Split():
         if self.rect.colliderect(Laser):
             self.size -= 1
+            if self.size == 0:
+                asteroids.remove(self)
         
     def collide(self):
         if self.rect.colliderect(player):
@@ -35,7 +37,7 @@ black = [0,0,0]
 
 player = Ship([400,400])
 
-asteroid = Asteroid([25,25], 2)
+asteroids = []
 
 while True:
     for event in event.get():
@@ -46,7 +48,8 @@ while True:
     
     window.fill(black)
     player.drawShip()
-    asteroid.drawAsteroid()
+    afor asteroid in asteroids:
+        asteroid.drawAsteroid()
     display.flip()
     timer.tick(60)
     
