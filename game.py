@@ -16,6 +16,7 @@ class Asteroid:
     def collide(self):
         if self.rect.colliderect(player):
             
+    def AsteroidTeleport(self, position):
         if self.position == 0:
             self.possition = 800        
 
