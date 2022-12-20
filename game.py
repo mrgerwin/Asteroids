@@ -4,15 +4,18 @@ class Asteroid:
     def __init__(self, position, size):
         self.position = position
         self.size = size
-<<<<<<< HEAD
-        self.AsteroidImage = image.load("Atseroid.jpg")
-        pass
-=======
         self.AsteroidImage = image.load("Asteroid.jpeg")
->>>>>>> 1f83e06884a05f27de55605e8b6403734257c1d1
         
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
+        
+    def Split():
+        if self.rect.colliderect(Laser):
+            self.size -= 1
+        
+    def collide(self):
+        if self.rect.colliderect(player):
+            
 
 class Ship:
     def __init__(self, position):
