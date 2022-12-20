@@ -9,8 +9,9 @@ class Asteroid:
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
         
-    def AsteroidTeleport():
-        pass
+    def AsteroidTeleport(self, position):
+        if self.position == 0:
+            self.possition = 800        
 
 class Ship:
     def __init__(self, position):
@@ -21,8 +22,8 @@ class Ship:
         self.rect = window.blit(self.shipImage, [400,400])
 
 screen_size = [800,800]
-window = display.set_mode(screen_size)
-
+window = display.set_mode(screen_size)\
+         
 timer = time.Clock()
 black = [0,0,0]
 
