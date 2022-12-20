@@ -4,12 +4,12 @@ class Asteroid:
     def __init__(self, position, size):
         self.position = position
         self.size = size
-        self.AsteroidImage = image.load("Asteroid.jpeg")
+        self.AsteroidImage = image.load("Asteroid.png")
         
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
         
-    def collide(self):
+    def AsteroidTeleport():
         pass
 
 class Ship:
