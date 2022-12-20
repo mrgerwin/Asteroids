@@ -28,7 +28,7 @@ class Ship:
         self.rect = window.blit(self.shipImage, [400,400])
 
 screen_size = [800,800]
-window = display.set_mode(screen_size)\
+window = display.set_mode(screen_size)
          
 timer = time.Clock()
 black = [0,0,0]
