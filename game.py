@@ -22,24 +22,30 @@ class Asteroid:
             
     def AsteroidTeleport(self, position):
         if self.position == 0:
-            self.possition = 800
+            self.position = 800
 
 class Ship:
     def __init__(self, position):
+        self.position = position
         self.shipImage = pygame.image.load("Frigate3.png")
-        self.rect = window.blit(self.shipImage, [400,400])
+        self.rect = window.blit(self.shipImage, self.position)
     
     def drawShip(self):
-        self.rect = window.blit(self.shipImage, [400,400])
+        self.rect = window.blit(self.shipImage, self.position)
+        
+    def moveShip(self):
+        self.position[0] += 1
+        
 
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
 
-topScreen = 
-bottomScreen = 
-leftScreen = 
-rightScreen = 
-timer = time.Clock()
+asteroid1 = 
+topScreen = 0
+bottomScreen = 0
+leftScreen = 0
+rightScreen = 0
+timer = pygame.time.Clock()
 black = [0,0,0]
 
 player = Ship([400,400])
@@ -47,16 +53,19 @@ player = Ship([400,400])
 asteroids = []
 
 while True:
-    for event in event.get():
-        if event.type == QUIT:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            player.moveShip()
+            drawShip
             quit = True
             quit()
             sys.exit(0)
     
     window.fill(black)
     player.drawShip()
+    player.moveShip()
     for asteroid in asteroids:
         asteroid.drawAsteroid()
     pygame.display.flip()
-    pygame.timer.tick(60)
+    timer.tick(60)
     
