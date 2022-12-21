@@ -2,7 +2,7 @@ from pygame import *
 
 class Ship:
     def __init__(self, position):
-        self.shipImage = image.load("NewFrigate3_74.png")
+        self.shipImage = image.load("NewFrigate3.png")
         self.rect = window.blit(self.shipImage, [400,400])
     
     def drawShip(self):
