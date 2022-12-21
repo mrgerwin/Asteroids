@@ -1,4 +1,4 @@
-from pygame import *
+import pygame 
 
 class Asteroid:
     def __init__(self, position, size):
@@ -26,15 +26,19 @@ class Asteroid:
 
 class Ship:
     def __init__(self, position):
-        self.shipImage = image.load("Frigate3.png")
+        self.shipImage = pygame.image.load("Frigate3.png")
         self.rect = window.blit(self.shipImage, [400,400])
     
     def drawShip(self):
         self.rect = window.blit(self.shipImage, [400,400])
 
 screen_size = [800,800]
-window = display.set_mode(screen_size)
-         
+window = pygame.display.set_mode(screen_size)
+
+topScreen = 
+bottomScreen = 
+leftScreen = 
+rightScreen = 
 timer = time.Clock()
 black = [0,0,0]
 
@@ -53,6 +57,6 @@ while True:
     player.drawShip()
     for asteroid in asteroids:
         asteroid.drawAsteroid()
-    display.flip()
-    timer.tick(60)
+    pygame.display.flip()
+    pygame.timer.tick(60)
     
