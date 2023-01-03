@@ -20,7 +20,8 @@ window = display.set_mode(screen_size)
 
 #sound Attributes
 mixer.init()
-theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+#theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+theMusic = mixer.music.load("ChillPixelBackgroundMusic.mp3")
 
 timer = time.Clock()
 black = [0,0,0]
