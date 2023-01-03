@@ -7,6 +7,13 @@ class Ship:
     
     def drawShip(self):
         self.rect = window.blit(self.shipImage, [400,400])
+class Ufo:
+    def __init__(self, position):
+        self.UfoImage = image.load("Ufo.png")
+        self.rect = window.blit(self.UfoImage, [700,200])
+    
+    def drawUfo(self):
+        self.rect = window.blit(self.UfoImage, [700,200])
 class Background:
     def __init__(self,position):
         self.BgImage = image.load("Background.jpg")
@@ -28,6 +35,8 @@ black = [0,0,0]
 
 player = Ship([400,400])
 
+enemy = Ufo([700,200])
+
 Background = Background([0,0])
 
 mixer.music.play(-1)
@@ -42,5 +51,6 @@ while True:
     window.fill(black)
     Background.drawBg()
     player.drawShip()
+    enemy.drawUfo()
     display.flip()
     timer.tick(60)
