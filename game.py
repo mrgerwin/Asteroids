@@ -7,22 +7,15 @@ class Asteroid:
         self.size = size
         self.speed = speed
         self.AsteroidImage = pygame.image.load("Asteroid.png")
-        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, .15)
+        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, self.size*.05)
 
         
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
         
     def AsteroidMove(self):
-        print(self.position)
         self.position[0] += self.speed[0]
         self.position[1] += self.speed[1]
-        
-    def Split(self):
-        if self.rect.colliderect(Laser):
-            self.size -= 1
-            if self.size == 0:
-                asteroids.remove(self)
         
     def collide(self):
         if self.rect.colliderect(player):
@@ -51,6 +44,13 @@ class Ship:
     def moveShip(self):
         self.position[0] += 1
         
+def Split():
+    NumOfAst = random.randint(2,4)
+    for i in range(NumOfAst):
+        NewAst = Asteroid([Asteroid1.position[0], Asteroid1.position[1]] , Asteroid1.size-1, random.choice(AsteroidSpeeds))
+        asteroids.append(NewAst)
+    asteroids.remove(Asteroid1)
+        
 
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
@@ -77,7 +77,15 @@ while True:
             quit = True
             quit()
             sys.exit(0)
-    
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_y:
+                print("Y")
+                Split()
+            if event.key == pygame.K_m:
+                for astroid in asteroids:
+                    print(str(astroid.speed) +  '  ' + str(astroid.position))
+            
+        
     window.fill(black)
     player.drawShip()
     player.moveShip()
