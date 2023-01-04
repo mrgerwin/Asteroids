@@ -2,23 +2,23 @@ import pygame
 import random
 
 class Asteroid:
-    def __init__(self, position, size):
+    def __init__(self, position, size, speed):
         self.position = position
         self.size = size
+        self.speed = speed
         self.AsteroidImage = pygame.image.load("Asteroid.png")
-        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, .175)
+        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, .15)
 
         
     def drawAsteroid(self):
         self.rect = window.blit(self.AsteroidImage, self.position)
         
-    def AsteroidMove(self, postition):
-            self.position += 1
+    def AsteroidMove(self):
+        print(self.position)
+        self.position[0] += self.speed[0]
+        self.position[1] += self.speed[1]
         
-            
-            
-        
-    def Split():
+    def Split(self):
         if self.rect.colliderect(Laser):
             self.size -= 1
             if self.size == 0:
@@ -29,15 +29,15 @@ class Asteroid:
             pass
             
             
-    def AsteroidTeleport(self, position):
-        if self.position[0] == 0:
+    def AsteroidTeleport(self):
+        if self.position[0] <= -151:
             self.position[0] = 800
-        if self.position[0] == 800:
-            self.position[0] = 0
-        if self.position[1] == 0:
+        if self.position[0] >= 801:
+            self.position[0] = -150
+        if self.position[1] <= -151:
             self.position[1] = 800
-        if self.position[1] == 800:
-            self.position[1] = 0
+        if self.position[1] >= 801:
+            self.position[1] = -150
 
 class Ship:
     def __init__(self, position):
@@ -66,7 +66,7 @@ timer = pygame.time.Clock()
 black = [0,0,0]
 
 player = Ship([400,400])
-Asteroid1 = Asteroid([0,0], 10)
+Asteroid1 = Asteroid([100,100], 3, random.choice(AsteroidSpeeds))
 asteroids = [Asteroid1]
 
 while True:
@@ -82,8 +82,9 @@ while True:
     player.drawShip()
     player.moveShip()
     for asteroid in asteroids:
-        asteroid.AsteroidMove(asteroid.position)
+        asteroid.AsteroidMove()
         asteroid.drawAsteroid()
+        asteroid.AsteroidTeleport()
     pygame.display.flip()
     timer.tick(60)
     
