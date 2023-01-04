@@ -36,19 +36,20 @@ class Lasers:
         self.Originalimg = pygame.image.load("LaserBeam.png")
         self.angle = angle
         self.Laserimage = self.Originalimg
-        self.Laserimage = pygame.transform.rotate(self.Laserimage, self.angle)
+        #self.Laserimage = pygame.transform.rotate(self.Laserimage, self.angle)
+        
         self.rect = window.blit(self.Laserimage,self.position)
         self.newRect = ""
         self.originalCenter = ""
         self.originalPosition = ""
+        self.rotate()
         
     def drawLaser(self):
         self.rect = window.blit(self.Laserimage, self.position)
         
     
     
-    def rotate(self, angleDelta):
-        self.angle += angleDelta
+    def rotate(self):
         self.originalPosition = self.position
         self.originalCenter = self.rect.center
         self.Laserimage = pygame.transform.rotate(self.Originalimg, self.angle)
@@ -58,7 +59,7 @@ class Lasers:
     def Shoot(self):
         self.position[0]+= math.cos((self.angle*math.pi)/180)
         self.position[1]-= math.sin((self.angle*math.pi)/180)
-        print(self.position)
+        #print(self.position)
 
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
@@ -89,6 +90,7 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
+                print(player.position)
                 Laser1 = Lasers(player.position, player.angle)
                 lasers.append(Laser1) 
                 
