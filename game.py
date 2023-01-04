@@ -1,6 +1,18 @@
 import pygame
 import math
 
+def drawText():
+    global Text, white
+    thewordsthatiuseText = Text.render("OBJECTIVE: DESTROY THE METEORS", True, white)
+    
+    window.blit(thewordsthatiuseText, (130, 20))
+
+def drawScore():
+    global score, white
+    controlText = Text.render("SPACE = Shoot         Up/Down Arrow to Move", True, white)
+    
+    window.blit(controlText, (35, 700))
+
 class Ship:
     def __init__(self, position):
         self.OriginalImage = pygame.image.load("NewFrigate3.png")
@@ -94,7 +106,12 @@ theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
 
 timer = pygame.time.Clock()
 black = [0,0,0]
+white = [255, 255, 255]
 
+
+#these spaceness things
+font.init()
+Text = font.SysFont("consolas", 30)
 player = Ship([200,400])
 
 enemy = Ufo([700,200])
@@ -110,6 +127,7 @@ while True:
             pygame.quit = True
             pygame.quit()
             sys.exit(0)
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
@@ -126,14 +144,21 @@ while True:
             if event.key == pygame.K_UP:
                 player.speed =0
                 
+
     window.fill(black)
     Background.drawBg()
     enemy.drawUfo()
     player.moveShip()
     player.drawShip()
 
+    drawText()
+    drawScore()
+
+
+
     for laser in lasers:
         laser.Shoot()
         laser.drawLaser()
     pygame.display.flip()
     timer.tick(60)
+
