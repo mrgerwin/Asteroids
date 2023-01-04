@@ -8,7 +8,7 @@ class Ship:
         self.position = position
         self.rect = window.blit(self.shipImage, self.position)
         self.angle = 0
-        self.speed = 10
+        self.speed = 0
         
     
     def drawShip(self):
@@ -77,11 +77,16 @@ while True:
             if event.key == pygame.K_RIGHT:
                 player.rotate(-5)
             if event.key == pygame.K_UP:
-                player.moveShip()
-    
+                player.speed =5
+            player.moveShip()
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                player.speed =0
+                
     window.fill(black)
     Background.drawBg()
-    player.drawShip()
     enemy.drawUfo()
+    player.moveShip()
+    player.drawShip()
     pygame.display.flip()
     timer.tick(60)
