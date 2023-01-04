@@ -1,20 +1,20 @@
 import pygame
 import math
 
-
 class Ship:
     def __init__(self, position):
-        self.OriginalImage = pygame.image.load("Frigate3.png")
+        self.OriginalImage = pygame.image.load("NewFrigate3.png")
         self.shipImage = self.OriginalImage
         self.position = position
         self.rect = window.blit(self.shipImage, self.position)
         self.angle = 0
-        self.speed = 10
-       
-   
+
+        self.speed = 0
+        
+    
     def drawShip(self):
         self.rect = window.blit(self.shipImage, self.position)
-       
+        
     def rotate(self, angleDelta):
         self.angle += angleDelta
         originalPosition = self.position
@@ -29,7 +29,6 @@ class Ship:
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
        
-        
 class Lasers:
     def __init__(self, position, angle):
         self.position = position
@@ -60,6 +59,23 @@ class Lasers:
         self.position[0]+= math.cos((self.angle*math.pi)/180)
         self.position[1]-= math.sin((self.angle*math.pi)/180)
         #print(self.position)
+class Ufo:
+    def __init__(self, position):
+        self.UfoImage = pygame.image.load("Ufo.png")
+        self.rect = window.blit(self.UfoImage, [700,200])
+    
+    def drawUfo(self):
+        self.rect = window.blit(self.UfoImage, [700,200])
+class Background:
+    def __init__(self,position):
+        self.BgImage = pygame.image.load("Background.jpg")
+        self.BgRect = window.blit(self.BgImage,[0,0])
+    
+    def drawBg(self):
+        self.BgRect = window.blit(self.BgImage,[0,0])
+        
+screen_size = [800,800]
+window = pygame.display.set_mode(screen_size)
 
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
@@ -68,8 +84,24 @@ timer = pygame.time.Clock()
 black = [0 ,0,0]
 player = Ship([200,400])
 
-
 lasers = []
+
+#sound Attributes
+pygame.mixer.init()
+#theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
+
+
+timer = pygame.time.Clock()
+black = [0,0,0]
+
+player = Ship([200,400])
+
+enemy = Ufo([700,200])
+
+Background = Background([0,0])
+
+pygame.mixer.music.play(-1)
 
 while True:
     window.fill(black)
@@ -79,25 +111,27 @@ while True:
             pygame.quit()
             sys.exit(0)
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                player.rotate(5)
-            if event.key == pygame.K_RIGHT:
-                player.rotate(-5)
-            if event.key == pygame.K_UP:
-                player.moveShip()
-               
-        
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
                 print(player.position)
                 Laser1 = Lasers(player.position, player.angle)
                 lasers.append(Laser1) 
+            if event.key == pygame.K_LEFT:
+                player.rotate(5)
+            if event.key == pygame.K_RIGHT:
+                player.rotate(-5)
+            if event.key == pygame.K_UP:
+                player.speed = 5
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                player.speed =0
                 
-            
-    
     window.fill(black)
+    Background.drawBg()
+    enemy.drawUfo()
+    player.moveShip()
     player.drawShip()
+
     for laser in lasers:
         laser.Shoot()
         laser.drawLaser()
