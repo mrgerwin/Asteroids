@@ -110,8 +110,8 @@ white = [255, 255, 255]
 
 
 #these spaceness things
-font.init()
-Text = font.SysFont("consolas", 30)
+pygame.font.init()
+Text = pygame.font.SysFont("consolas", 30)
 player = Ship([200,400])
 
 enemy = Ufo([700,200])
