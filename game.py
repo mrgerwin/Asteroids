@@ -30,14 +30,14 @@ class Ship:
         
 class Ufo:
     def __init__(self, position):
-        self.UfoImage = image.load("Ufo.png")
+        self.UfoImage = pygame.image.load("Ufo.png")
         self.rect = window.blit(self.UfoImage, [700,200])
     
     def drawUfo(self):
         self.rect = window.blit(self.UfoImage, [700,200])
 class Background:
     def __init__(self,position):
-        self.BgImage = image.load("Background.jpg")
+        self.BgImage = pygame.image.load("Background.jpg")
         self.BgRect = window.blit(self.BgImage,[0,0])
     
     def drawBg(self):
@@ -48,9 +48,9 @@ window = pygame.display.set_mode(screen_size)
 
 
 #sound Attributes
-mixer.init()
+pygame.mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
-theMusic = mixer.music.load("ChillPixelBackgroundMusic.mp3")
+theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
 
 
 timer = pygame.time.Clock()
@@ -62,7 +62,7 @@ enemy = Ufo([700,200])
 
 Background = Background([0,0])
 
-mixer.music.play(-1)
+pygame.mixer.music.play(-1)
 
 while True:
     window.fill(black)
@@ -83,5 +83,5 @@ while True:
     Background.drawBg()
     player.drawShip()
     enemy.drawUfo()
-    display.flip()
+    pygame.display.flip()
     timer.tick(60)
