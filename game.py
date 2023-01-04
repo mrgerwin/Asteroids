@@ -1,5 +1,4 @@
 import pygame
-from pygame import *
 import math
 
 class Ship:
@@ -28,6 +27,7 @@ class Ship:
         print(math.cos((self.angle*math.pi)/180))
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180) 
+        
 class Ufo:
     def __init__(self, position):
         self.UfoImage = image.load("Ufo.png")
@@ -42,19 +42,21 @@ class Background:
     
     def drawBg(self):
         self.BgRect = window.blit(self.BgImage,[0,0])
-    
+        
 screen_size = [800,800]
-window = display.set_mode(screen_size)
+window = pygame.display.set_mode(screen_size)
+
 
 #sound Attributes
 mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
 theMusic = mixer.music.load("ChillPixelBackgroundMusic.mp3")
 
-timer = time.Clock()
+
+timer = pygame.time.Clock()
 black = [0,0,0]
 
-player = Ship([400,400])
+player = Ship([200,400])
 
 enemy = Ufo([700,200])
 
