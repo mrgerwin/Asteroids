@@ -1,12 +1,33 @@
+import pygame
 from pygame import *
+import math
 
 class Ship:
     def __init__(self, position):
-        self.shipImage = image.load("NewFrigate3.png")
-        self.rect = window.blit(self.shipImage, [400,400])
+        self.OriginalImage = pygame.image.load("NewFrigate3.png")
+        self.shipImage = self.OriginalImage
+        self.position = position
+        self.rect = window.blit(self.shipImage, self.position)
+        self.angle = 0
+        self.speed = 10
+        
     
     def drawShip(self):
-        self.rect = window.blit(self.shipImage, [400,400])
+        self.rect = window.blit(self.shipImage, self.position)
+        
+    def rotate(self, angleDelta):
+        self.angle += angleDelta
+        originalPosition = self.position
+        originalCenter = self.rect.center
+        self.shipImage = pygame.transform.rotate(self.OriginalImage, self.angle)
+        newRect = self.shipImage.get_rect()
+        self.position = [originalCenter[0]-int(newRect.width/2), originalCenter[1]-int(newRect.height/2)]
+        self.rect = window.blit(self.shipImage, self.position)
+      
+    def moveShip(self):
+        print(math.cos((self.angle*math.pi)/180))
+        self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
+        self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180) 
 class Ufo:
     def __init__(self, position):
         self.UfoImage = image.load("Ufo.png")
@@ -42,11 +63,19 @@ Background = Background([0,0])
 mixer.music.play(-1)
 
 while True:
-    for event in event.get():
-        if event.type == QUIT:
-            quit = True
-            quit()
+    window.fill(black)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit = True
+            pygame.quit()
             sys.exit(0)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player.rotate(5)
+            if event.key == pygame.K_RIGHT:
+                player.rotate(-5)
+            if event.key == pygame.K_UP:
+                player.moveShip()
     
     window.fill(black)
     Background.drawBg()
