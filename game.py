@@ -14,12 +14,17 @@ def drawScore():
     
     window.blit(controlText, (35, 700))
 
-def Split():
+def Split(asteroid):
     NumOfAst = random.randint(2,4)
     for i in range(NumOfAst):
-        NewAst = Asteroid([Asteroid1.position[0], Asteroid1.position[1]] , Asteroid1.size-1, random.choice(AsteroidSpeeds))
+        NewAst = Asteroid([asteroid.position[0], asteroid.position[1]] , asteroid.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
-    asteroids.remove(Asteroid1)
+    asteroids.remove(asteroid)
+    
+def SpawnAsteroid():
+    X = random.randint(-150, 800)
+    Y = -150
+    NewAst = Asteroid([X, Y], random.randint(1, 3), random.choice(AsteroidSpeeds))
     
 class Asteroid:
     def __init__(self, position, size, speed):
@@ -27,7 +32,7 @@ class Asteroid:
         self.size = size
         self.speed = speed
         self.AsteroidImage = pygame.image.load("Asteroid.png")
-        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, self.size*.05)
+        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, self.size*.04)
 
         
     def drawAsteroid(self):
@@ -38,8 +43,13 @@ class Asteroid:
         self.position[1] += self.speed[1]
         
     def collide(self):
-        if self.rect.colliderect(player):
+        if self.rect.colliderect(player.rect):
             pass
+        for laser in lasers:
+            if self.rect.colliderect(laser.rect):
+                lasers.remove(laser)
+                Split(self)
+            
             
             
     def AsteroidTeleport(self):
@@ -75,7 +85,6 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        print(math.cos((self.angle*math.pi)/180))
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
 
@@ -163,8 +172,6 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                print("Pressed space")
-                print(player.position)
                 Laser1 = Lasers(player.position, player.angle)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
@@ -174,11 +181,7 @@ while True:
             if event.key == pygame.K_UP:
                 player.speed = 5
             if event.key == pygame.K_y:
-                print("Y")
                 Split()
-            if event.key == pygame.K_m:
-                for astroid in asteroids:
-                    print(str(astroid.speed) +  '  ' + str(astroid.position))
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player.speed =0
@@ -193,6 +196,7 @@ while True:
         asteroid.AsteroidMove()
         asteroid.drawAsteroid()
         asteroid.AsteroidTeleport()
+        asteroid.collide()
     drawText()
     drawScore()
 
