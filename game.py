@@ -75,7 +75,7 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        print(math.cos((self.angle*math.pi)/180))
+       # print(math.cos((self.angle*math.pi)/180))
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
 
@@ -108,6 +108,16 @@ class Lasers:
         self.position[0]+= self.speed*math.cos((self.angle*math.pi)/180)
         self.position[1]-= self.speed*math.sin((self.angle*math.pi)/180)
         #print(self.position)
+        
+        
+    def onscreen(self):
+        if self.position[0]>screen_size[0]:
+            return True
+        
+        return False
+            
+        
+        
 class Ufo:
     def __init__(self, position):
         self.UfoImage = pygame.image.load("Ufo.png")
@@ -200,6 +210,8 @@ while True:
     for laser in lasers:
         laser.Shoot()
         laser.drawLaser()
+        if laser.onscreen():
+            lasers.remove(laser)
     pygame.display.flip()
     timer.tick(60)
 
