@@ -1,6 +1,7 @@
 import math
 import pygame 
-import random
+import random    
+    
 
 def drawText():
     global Text, white
@@ -20,7 +21,17 @@ def Split():
         NewAst = Asteroid([Asteroid1.position[0], Asteroid1.position[1]] , Asteroid1.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
     asteroids.remove(Asteroid1)
-    
+
+class Powerups:
+    def __init__(self, position):
+        self.position = position
+        self.speed = 10
+        self.size = 10
+        self.Ammoimage = pygame.image.load("AmmoBox.png")
+        
+    def drawAmmoBox(self):
+        self.rect = window.blit(self.Ammoimage, self.position)
+        
 class Asteroid:
     def __init__(self, position, size, speed):
         self.position = position
