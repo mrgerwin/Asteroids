@@ -176,7 +176,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
                 print(player.position)
-                Laser1 = Lasers(player.position, player.angle, 7)
+                Laser1 = Lasers(player.position, player.angle, 20)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
                 player.rotate(5)
