@@ -61,12 +61,13 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
         self.angle = 0
         self.speed = 0
+        self.TurnSpeed = 0
     
     def drawShip(self):
         self.rect = window.blit(self.shipImage, self.position)
         
-    def rotate(self, angleDelta):
-        self.angle += angleDelta
+    def rotate(self):
+        self.angle += self.TurnSpeed
         originalPosition = self.position
         originalCenter = self.rect.center
         self.shipImage = pygame.transform.rotate(self.OriginalImage, self.angle)
@@ -168,11 +169,13 @@ while True:
                 Laser1 = Lasers(player.position, player.angle)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
-                player.rotate(5)
+                player.TurnSpeed=4
+                print(player.TurnSpeed)
             if event.key == pygame.K_RIGHT:
-                player.rotate(-5)
+                player.TurnSpeed=-4
+                print(player.TurnSpeed)
             if event.key == pygame.K_UP:
-                player.speed = 5
+                player.speed = 4
             if event.key == pygame.K_y:
                 print("Y")
                 Split()
@@ -182,10 +185,14 @@ while True:
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player.speed =0
-                
+            if event.key == pygame.K_LEFT:
+                player.TurnSpeed=0
+            if event.key == pygame.K_RIGHT:
+                player.TurnSpeed=0
     window.fill(black)
     Background.drawBg()
     enemy.drawUfo()
+    player.rotate()
     player.moveShip()
     player.drawShip()
     player.moveShip()
