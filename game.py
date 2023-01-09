@@ -22,7 +22,7 @@ def drawPoints():
 
 def increasePoints():
     global points
-    points = points + 5
+    points = points + 1
 
 def Split():
     NumOfAst = random.randint(2,4)
