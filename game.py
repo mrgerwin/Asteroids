@@ -76,16 +76,17 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        print(math.cos((self.angle*math.pi)/180))
+       # print(math.cos((self.angle*math.pi)/180))
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
 
 class Lasers:
-    def __init__(self, position, angle):
+    def __init__(self, position, angle, speed):
         self.position = position
         self.Originalimg = pygame.image.load("LaserBeam.png")
         self.angle = angle
         self.Laserimage = self.Originalimg
+        self.speed = speed
         #self.Laserimage = pygame.transform.rotate(self.Laserimage, self.angle)
         
         self.rect = window.blit(self.Laserimage,self.position)
@@ -105,9 +106,19 @@ class Lasers:
         self.position = [self.originalCenter[0] -int(self.newRect.width/2), self.originalCenter[1] -int(self.newRect.height/2)]
     
     def Shoot(self):
-        self.position[0]+= math.cos((self.angle*math.pi)/180)
-        self.position[1]-= math.sin((self.angle*math.pi)/180)
+        self.position[0]+= self.speed*math.cos((self.angle*math.pi)/180)
+        self.position[1]-= self.speed*math.sin((self.angle*math.pi)/180)
         #print(self.position)
+        
+        
+    def onscreen(self):
+        if self.position[0]>screen_size[0]:
+            return True
+        
+        return False
+            
+        
+        
 class Ufo:
     def __init__(self, position):
         self.UfoImage = pygame.image.load("Ufo.png")
@@ -166,7 +177,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
                 print(player.position)
-                Laser1 = Lasers(player.position, player.angle)
+                Laser1 = Lasers(player.position, player.angle, 20)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
@@ -206,6 +217,8 @@ while True:
     for laser in lasers:
         laser.Shoot()
         laser.drawLaser()
+        if laser.onscreen():
+            lasers.remove(laser)
     pygame.display.flip()
     timer.tick(60)
 
