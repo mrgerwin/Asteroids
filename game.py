@@ -16,9 +16,11 @@ def drawScore():
 
 def Split():
     NumOfAst = random.randint(2,4)
+    Asteroid1 = asteroids[0]
     for i in range(NumOfAst):
         NewAst = Asteroid([Asteroid1.position[0], Asteroid1.position[1]] , Asteroid1.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
+    print(Asteroid1.size)
     asteroids.remove(Asteroid1)
     
 class Asteroid:
@@ -75,7 +77,7 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        print(math.cos((self.angle*math.pi)/180))
+        #print(math.cos((self.angle*math.pi)/180))
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
 
