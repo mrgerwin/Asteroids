@@ -13,6 +13,16 @@ def drawScore():
     controlText = Text.render("SPACE = Shoot         Up/Down Arrow to Move", True, white)
     
     window.blit(controlText, (35, 700))
+    
+def drawPoints():
+    global points, white
+    PointsText = Text.render("Rocks Destroyed:"+ str(points), True, white)
+    
+    window.blit(PointsText, (235, 50))
+
+def increasePoints():
+    global points
+    points = points + 1
 
 def Split():
     NumOfAst = random.randint(2,4)
@@ -159,7 +169,7 @@ player = Ship([200,400])
 Asteroid1 = Asteroid([100,100], 3, random.choice(AsteroidSpeeds))
 asteroids = [Asteroid1]
 enemy = Ufo([700,200])
-
+points = 0
 
 Background = Background([0,0])
 
@@ -190,6 +200,7 @@ while True:
             if event.key == pygame.K_y:
                 print("Y")
                 Split()
+                increasePoints()
             if event.key == pygame.K_m:
                 for astroid in asteroids:
                     print(str(astroid.speed) +  '  ' + str(astroid.position))
@@ -213,6 +224,7 @@ while True:
         asteroid.AsteroidTeleport()
     drawText()
     drawScore()
+    drawPoints()
 
     for laser in lasers:
         laser.Shoot()
