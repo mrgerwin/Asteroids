@@ -138,8 +138,9 @@ lasers = []
 #sound Attributes
 pygame.mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+EngineSound = pygame.mixer.music.load("FriggateEngineSound.mp3")
 theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
-
+LazerSound = pygame.mixer.Sound("MissileShot.mp3")
 
 #these spaceness things
 pygame.font.init()
@@ -167,7 +168,8 @@ while True:
                 print("Pressed space")
                 print(player.position)
                 Laser1 = Lasers(player.position, player.angle)
-                lasers.append(Laser1) 
+                lasers.append(Laser1)
+                pygame.mixer.Sound.play(LazerSound)
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
                 print(player.TurnSpeed)
