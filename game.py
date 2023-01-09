@@ -1,6 +1,7 @@
 import math
 import pygame 
 import random
+import time
 
 def drawText():
     global Text, white
@@ -25,6 +26,7 @@ def SpawnAsteroid():
     X = random.randint(-150, 800)
     Y = -150
     NewAst = Asteroid([X, Y], random.randint(1, 3), random.choice(AsteroidSpeeds))
+    asteroids.append(NewAst)
     
 class Asteroid:
     def __init__(self, position, size, speed):
@@ -134,7 +136,7 @@ class Background:
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
 
-AsteroidSpeeds = [[0,1],[0,2],[0,3],[1,1], [1,2], [1,3], [-1, 1], [-1, 2], [-1, 3], [2, 1], [2, 2], [2, 3], [-2, 1], [-2, 2], [-2, 3]]
+AsteroidSpeeds = [[0,1],[0,2],[0,3],[1,1], [1,2], [1,3], [-1, 1], [-1, 2], [-1, 3], [2, 1], [2, 2], [2, 3], [-2, 1], [-2, 2], [-2, 3], [0,-1],[0,-2],[0,-3],[1,-1], [1,-2], [1,-3], [-1, -1], [-1, -2], [-1, -3], [2, -1], [2, -2], [2, -3], [-2, -1], [-2, -2], [-2, -3]]
 
 timer = pygame.time.Clock()
 black = [0 ,0,0]
@@ -157,12 +159,15 @@ Asteroid1 = Asteroid([100,100], 3, random.choice(AsteroidSpeeds))
 asteroids = [Asteroid1]
 enemy = Ufo([700,200])
 
+FrameNum = 0
+FramesToSpawn = 450
 
 Background = Background([0,0])
 
 pygame.mixer.music.play(-1)
 
 while True:
+    FrameNum += 1
     window.fill(black)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -181,7 +186,7 @@ while True:
             if event.key == pygame.K_UP:
                 player.speed = 5
             if event.key == pygame.K_y:
-                Split()
+                SpawnAsteroid()
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player.speed =0
@@ -199,6 +204,10 @@ while True:
         asteroid.collide()
     drawText()
     drawScore()
+    
+    if FrameNum % FramesToSpawn == 0:
+        FramesToSpawn -= 3
+        SpawnAsteroid()
 
     for laser in lasers:
         laser.Shoot()
