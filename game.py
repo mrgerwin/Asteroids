@@ -62,7 +62,6 @@ class Asteroid:
             if self.rect.colliderect(laser.rect):
                 lasers.remove(laser)
                 Split(self)
-                pygame.mixer.Sound.play(AstroidBreak)
                 increasePoints()
             
             
@@ -185,9 +184,10 @@ lasers = []
 #sound Attributes
 pygame.mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+EngineSound = pygame.mixer.music.load("FriggateEngineSound.mp3")
 theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
 LazerSound = pygame.mixer.Sound("MissileShot.mp3")
-AstroidBreak = pygame.mixer.Sound("BangSmall.wav")
+
 #these spaceness things
 pygame.font.init()
 Text = pygame.font.SysFont("consolas", 30)
@@ -240,6 +240,7 @@ while True:
                 player.TurnSpeed=0
     window.fill(black)
     Background.drawBg()
+    enemy.drawUfo()
     player.rotate()
     player.moveShip()
     player.drawShip()
