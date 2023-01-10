@@ -20,7 +20,10 @@ def drawPoints():
     PointsText = Text.render("Rocks Destroyed:"+ str(points), True, white)
     
     window.blit(PointsText, (235, 50))
-
+def drawLives():
+    livesText = Text.render("Lives: " + str(player.lives), True, white)
+    
+    window.blit(livesText, (280, 700))
 def increasePoints():
     global points
     points = points + 1
@@ -96,6 +99,7 @@ class Ship:
         self.angle = 0
         self.speed = 0
         self.TurnSpeed = 0
+        self.lives = 3
     
     def drawShip(self):
         self.rect = window.blit(self.shipImage, self.position)
@@ -267,6 +271,7 @@ while True:
 
     drawText()
     drawScore()
+    drawLives()
     
     if FrameNum % FramesToSpawn == 0:
         FramesToSpawn -= 3
