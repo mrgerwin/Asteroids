@@ -10,7 +10,7 @@ def drawText():
 
 def drawScore():
     global score, white
-    controlText = Text.render("SPACE = Shoot         Up/Down Arrow to Move", True, white)
+    controlText = Text.render("SPACE = Shoot            Arrow Keys to Move", True, white)
     
     window.blit(controlText, (35, 700))
     
