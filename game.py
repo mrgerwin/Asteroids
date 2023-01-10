@@ -30,13 +30,22 @@ def Split(asteroid):
     for i in range(NumOfAst):
         NewAst = Asteroid([asteroid.position[0], asteroid.position[1]] , asteroid.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
-    asteroids.remove(asteroid)
-    
+    asteroids.remove(Asteroid1)
 def SpawnAsteroid():
     X = random.randint(-150, 800)
     Y = -150
     NewAst = Asteroid([X, Y], random.randint(1, 3), random.choice(AsteroidSpeeds))
     asteroids.append(NewAst)
+class Powerups:
+    def __init__(self, position):
+        self.position = position
+        self.speed = 10
+        self.size = 10
+        self.Ammoimage = pygame.image.load("AmmoBox.png")
+        
+    def drawAmmoBox(self):
+        self.rect = window.blit(self.Ammoimage, self.position)
+ 
     
 class Asteroid:
     def __init__(self, position, size, speed):
