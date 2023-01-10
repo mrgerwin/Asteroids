@@ -63,6 +63,7 @@ class Asteroid:
                 lasers.remove(laser)
                 Split(self)
                 increasePoints()
+                pygame.mixer.Sound.play(AstroidBreak)
             
             
             
@@ -184,10 +185,9 @@ lasers = []
 #sound Attributes
 pygame.mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
-EngineSound = pygame.mixer.music.load("FriggateEngineSound.mp3")
 theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
 LazerSound = pygame.mixer.Sound("MissileShot.mp3")
-
+AstroidBreak = pygame.mixer.Sound("BangSmall.wav")
 #these spaceness things
 pygame.font.init()
 Text = pygame.font.SysFont("consolas", 30)
@@ -222,6 +222,14 @@ while True:
                 Laser1 = Lasers(player.position, player.angle,20)
                 lasers.append(Laser1)
                 pygame.mixer.Sound.play(LazerSound)
+            elif event.key == pygame.K_a:
+                player.TurnSpeed=4
+                #print(player.TurnSpeed)
+            if event.key == pygame.K_d:
+                player.TurnSpeed=-4
+                #print(player.TurnSpeed)
+            if event.key == pygame.K_w:
+                player.speed = 4
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
                 #print(player.TurnSpeed)
@@ -237,10 +245,15 @@ while True:
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=0
             if event.key == pygame.K_RIGHT:
+                player.TurnSpeed=0  
+            if event.key == pygame.K_w:
+                player.speed =0
+            if event.key == pygame.K_a:
+                player.TurnSpeed=0
+            if event.key == pygame.K_d:
                 player.TurnSpeed=0
     window.fill(black)
     Background.drawBg()
-    enemy.drawUfo()
     player.rotate()
     player.moveShip()
     player.drawShip()
