@@ -55,12 +55,14 @@ class Asteroid:
         self.position[1] += self.speed[1]
         
     def collide(self):
+        global points
         if self.rect.colliderect(player.rect):
             pass
         for laser in lasers:
             if self.rect.colliderect(laser.rect):
                 lasers.remove(laser)
                 Split(self)
+                increasePoints()
             
             
             
