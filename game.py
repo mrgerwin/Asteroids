@@ -30,7 +30,7 @@ def Split(asteroid):
     for i in range(NumOfAst):
         NewAst = Asteroid([asteroid.position[0], asteroid.position[1]] , asteroid.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
-    asteroids.remove(Asteroid1)
+    asteroids.remove(asteroid)
 def SpawnAsteroid():
     X = random.randint(-150, 800)
     Y = -150
