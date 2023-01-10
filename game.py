@@ -1,6 +1,7 @@
 import math
 import pygame 
 import random
+import time
 
 def drawText():
     global Text, white
@@ -10,16 +11,32 @@ def drawText():
 
 def drawScore():
     global score, white
-    controlText = Text.render("SPACE = Shoot         Up/Down Arrow to Move", True, white)
+    controlText = Text.render("SPACE = Shoot            Arrow Keys to Move", True, white)
     
     window.blit(controlText, (35, 700))
+    
+def drawPoints():
+    global points, white
+    PointsText = Text.render("Rocks Destroyed:"+ str(points), True, white)
+    
+    window.blit(PointsText, (235, 50))
 
-def Split():
+def increasePoints():
+    global points
+    points = points + 1
+
+def Split(asteroid):
     NumOfAst = random.randint(2,4)
     for i in range(NumOfAst):
-        NewAst = Asteroid([Asteroid1.position[0], Asteroid1.position[1]] , Asteroid1.size-1, random.choice(AsteroidSpeeds))
+        NewAst = Asteroid([asteroid.position[0], asteroid.position[1]] , asteroid.size-1, random.choice(AsteroidSpeeds))
         asteroids.append(NewAst)
-    asteroids.remove(Asteroid1)
+    asteroids.remove(asteroid)
+    
+def SpawnAsteroid():
+    X = random.randint(-150, 800)
+    Y = -150
+    NewAst = Asteroid([X, Y], random.randint(1, 3), random.choice(AsteroidSpeeds))
+    asteroids.append(NewAst)
     
 class Asteroid:
     def __init__(self, position, size, speed):
@@ -27,7 +44,7 @@ class Asteroid:
         self.size = size
         self.speed = speed
         self.AsteroidImage = pygame.image.load("Asteroid.png")
-        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, self.size*.05)
+        self.AsteroidImage = pygame.transform.rotozoom(self.AsteroidImage, 0, self.size*.04)
 
         
     def drawAsteroid(self):
@@ -38,8 +55,15 @@ class Asteroid:
         self.position[1] += self.speed[1]
         
     def collide(self):
-        if self.rect.colliderect(player):
+        global points
+        if self.rect.colliderect(player.rect):
             pass
+        for laser in lasers:
+            if self.rect.colliderect(laser.rect):
+                lasers.remove(laser)
+                Split(self)
+                increasePoints()
+            
             
             
     def AsteroidTeleport(self):
@@ -77,7 +101,7 @@ class Ship:
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        #print(self.position)
+
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
     
@@ -92,11 +116,12 @@ class Ship:
 
   
 class Lasers:
-    def __init__(self, position, angle):
+    def __init__(self, position, angle, speed):
         self.position = position
         self.Originalimg = pygame.image.load("LaserBeam.png")
         self.angle = angle
         self.Laserimage = self.Originalimg
+        self.speed = speed
         #self.Laserimage = pygame.transform.rotate(self.Laserimage, self.angle)
         
         self.rect = window.blit(self.Laserimage,self.position)
@@ -116,9 +141,19 @@ class Lasers:
         self.position = [self.originalCenter[0] -int(self.newRect.width/2), self.originalCenter[1] -int(self.newRect.height/2)]
     
     def Shoot(self):
-        self.position[0]+= math.cos((self.angle*math.pi)/180)
-        self.position[1]-= math.sin((self.angle*math.pi)/180)
+        self.position[0]+= self.speed*math.cos((self.angle*math.pi)/180)
+        self.position[1]-= self.speed*math.sin((self.angle*math.pi)/180)
         #print(self.position)
+        
+        
+    def onscreen(self):
+        if self.position[0]>screen_size[0]:
+            return True
+        
+        return False
+            
+        
+        
 class Ufo:
     def __init__(self, position):
         self.UfoImage = pygame.image.load("Ufo.png")
@@ -137,7 +172,7 @@ class Background:
 screen_size = [800,800]
 window = pygame.display.set_mode(screen_size)
 
-AsteroidSpeeds = [[0,1],[0,2],[0,3],[1,1], [1,2], [1,3], [-1, 1], [-1, 2], [-1, 3], [2, 1], [2, 2], [2, 3], [-2, 1], [-2, 2], [-2, 3]]
+AsteroidSpeeds = [[0,1],[0,2],[0,3],[1,1], [1,2], [1,3], [-1, 1], [-1, 2], [-1, 3], [2, 1], [2, 2], [2, 3], [-2, 1], [-2, 2], [-2, 3], [0,-1],[0,-2],[0,-3],[1,-1], [1,-2], [1,-3], [-1, -1], [-1, -2], [-1, -3], [2, -1], [2, -2], [2, -3], [-2, -1], [-2, -2], [-2, -3]]
 
 timer = pygame.time.Clock()
 black = [0 ,0,0]
@@ -149,8 +184,9 @@ lasers = []
 #sound Attributes
 pygame.mixer.init()
 #theMusic = mixer.music.load("LeEpicBattleMusic.mp3")
+EngineSound = pygame.mixer.music.load("FriggateEngineSound.mp3")
 theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
-
+LazerSound = pygame.mixer.Sound("MissileShot.mp3")
 
 #these spaceness things
 pygame.font.init()
@@ -160,12 +196,16 @@ Asteroid1 = Asteroid([100,100], 3, random.choice(AsteroidSpeeds))
 asteroids = [Asteroid1]
 enemy = Ufo([700,200])
 
+FrameNum = 0
+FramesToSpawn = 450
+points = 0
 
 Background = Background([0,0])
 
 pygame.mixer.music.play(-1)
 
 while True:
+    FrameNum += 1
     window.fill(black)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -176,9 +216,13 @@ while True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                #print("Pressed space")
-                #print(player.position)
-                Laser1 = Lasers(player.position, player.angle)
+
+                print("Pressed space")
+                print(player.position)
+                Laser1 = Lasers(player.position, player.angle,player.speed)
+                lasers.append(Laser1)
+                pygame.mixer.Sound.play(LazerSound)
+                Laser1 = Lasers(player.position, player.angle, 20)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
@@ -188,12 +232,7 @@ while True:
                 #print(player.TurnSpeed)
             if event.key == pygame.K_UP:
                 player.speed = 4
-            if event.key == pygame.K_y:
-                #print("Y")
-                Split()
-            if event.key == pygame.K_m:
-                for astroid in asteroids:
-                    print(str(astroid.speed) +  '  ' + str(astroid.position))
+
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_UP:
                 player.speed =0
@@ -212,15 +251,27 @@ while True:
         asteroid.AsteroidMove()
         asteroid.drawAsteroid()
         asteroid.AsteroidTeleport()
+
         if player.rect.colliderect(asteroid.rect):
             player.shipDeath()
             
+
+        asteroid.collide()
+
     drawText()
     drawScore()
+    
+    if FrameNum % FramesToSpawn == 0:
+        FramesToSpawn -= 3
+        SpawnAsteroid()
+        
+    drawPoints()
 
     for laser in lasers:
         laser.Shoot()
         laser.drawLaser()
+        if laser.onscreen():
+            lasers.remove(laser)
     pygame.display.flip()
     timer.tick(60)
 
