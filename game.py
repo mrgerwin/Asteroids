@@ -73,13 +73,24 @@ class Ship:
         self.shipImage = pygame.transform.rotate(self.OriginalImage, self.angle)
         newRect = self.shipImage.get_rect()
         self.position = [originalCenter[0]-int(newRect.width/2), originalCenter[1]-int(newRect.height/2)]
+        print(self.position)
         self.rect = window.blit(self.shipImage, self.position)
      
     def moveShip(self):
-        print(math.cos((self.angle*math.pi)/180))
+        #print(self.position)
         self.position[0] += self.speed*math.cos((self.angle*math.pi)/180)  
         self.position[1] -= self.speed*math.sin((self.angle*math.pi)/180)
+    
+    def shipDeath(self):
+        print ("you died")
+        exsploshinImage=pygame.image.load("C:/Users/Student/Documents/GitHub/Asteroids/images-removebg-preview.png")
+        window.blit(exsploshinImage, self.position)
+        self.position = [200,400]
+        self.rect = window.blit(self.shipImage, self.position)
+        #print(self.position)
+        
 
+  
 class Lasers:
     def __init__(self, position, angle):
         self.position = position
@@ -161,23 +172,24 @@ while True:
             pygame.quit = True
             pygame.quit()
             sys.exit(0)
+        
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                print("Pressed space")
-                print(player.position)
+                #print("Pressed space")
+                #print(player.position)
                 Laser1 = Lasers(player.position, player.angle)
                 lasers.append(Laser1) 
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
-                print(player.TurnSpeed)
+                #print(player.TurnSpeed)
             if event.key == pygame.K_RIGHT:
                 player.TurnSpeed=-4
-                print(player.TurnSpeed)
+                #print(player.TurnSpeed)
             if event.key == pygame.K_UP:
                 player.speed = 4
             if event.key == pygame.K_y:
-                print("Y")
+                #print("Y")
                 Split()
             if event.key == pygame.K_m:
                 for astroid in asteroids:
@@ -200,6 +212,9 @@ while True:
         asteroid.AsteroidMove()
         asteroid.drawAsteroid()
         asteroid.AsteroidTeleport()
+        if player.rect.colliderect(asteroid.rect):
+            player.shipDeath()
+            
     drawText()
     drawScore()
 
