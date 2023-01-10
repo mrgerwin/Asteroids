@@ -119,6 +119,7 @@ class Ship:
         print ("you died")
         exsploshinImage=pygame.image.load("images-removebg-preview.png")
         window.blit(exsploshinImage, self.position)
+        self.rect = window.blit(self.shipImage, self.position)
         self.position = [200,400]
         self.rect = window.blit(self.shipImage, self.position)
         #print(self.position)
