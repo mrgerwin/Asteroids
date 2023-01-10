@@ -203,14 +203,11 @@ while True:
             if event.key == pygame.K_SPACE:
                 print("Pressed space")
                 print(player.position)
-<<<<<<< HEAD
-                Laser1 = Lasers(player.position, player.angle)
+                Laser1 = Lasers(player.position, player.angle,player.speed)
                 lasers.append(Laser1)
                 pygame.mixer.Sound.play(LazerSound)
-=======
                 Laser1 = Lasers(player.position, player.angle, 20)
                 lasers.append(Laser1) 
->>>>>>> e8ce3dc242e138b0a0b2993b59c088becfa12a39
             if event.key == pygame.K_LEFT:
                 player.TurnSpeed=4
                 print(player.TurnSpeed)
