@@ -107,7 +107,7 @@ class Ship:
     
     def shipDeath(self):
         print ("you died")
-        exsploshinImage=pygame.image.load("C:/Users/Student/Documents/GitHub/Asteroids/images-removebg-preview.png")
+        exsploshinImage=pygame.image.load("images-removebg-preview.png")
         window.blit(exsploshinImage, self.position)
         self.position = [200,400]
         self.rect = window.blit(self.shipImage, self.position)
