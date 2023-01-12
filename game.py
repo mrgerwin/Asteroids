@@ -122,6 +122,7 @@ class Ship:
     def shipDeath(self):
         print ("you died")
         exsploshinImage=pygame.image.load("images-removebg-preview.png")
+        pygame.mixer.Sound.play(ShipDie)
         window.blit(exsploshinImage, self.position)
         self.rect = window.blit(self.shipImage, self.position)
         self.position = [200,400]
@@ -202,6 +203,7 @@ pygame.mixer.init()
 theMusic = pygame.mixer.music.load("ChillPixelBackgroundMusic.mp3")
 LazerSound = pygame.mixer.Sound("MissileShot.mp3")
 AstroidBreak = pygame.mixer.Sound("BangSmall.wav")
+ShipDie = pygame.mixer.Sound("BOOM.mp3")
 #these spaceness things
 pygame.font.init()
 Text = pygame.font.SysFont("consolas", 30)
