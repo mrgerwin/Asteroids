@@ -24,11 +24,18 @@ def drawLives():
     livesText = Text.render("Lives: " + str(player.lives), True, white)
     
     window.blit(livesText, (280, 700))
+    
+def DrawPointIncrease(position):
+    PointIncreaseText = Text.render("+1",True, white)
+
+    window.blit(PointIncreaseText, position)
+    
 def increasePoints():
     global points
     points = points + 1
-
 def Split(asteroid):
+    global tempPosition
+    tempPosition = asteroid.position
     NumOfAst = random.randint(2,4)
     for i in range(NumOfAst):
         NewAst = Asteroid([asteroid.position[0], asteroid.position[1]] , asteroid.size-1, random.choice(AsteroidSpeeds))
@@ -215,6 +222,7 @@ enemy = Ufo([700,200])
 FrameNum = 0
 FramesToSpawn = 450
 points = 0
+tempPosition = [-10,0]
 
 Background = Background([0,0])
 
@@ -288,6 +296,7 @@ while True:
     drawText()
     drawScore()
     drawLives()
+    DrawPointIncrease(tempPosition)
     
     if FrameNum % FramesToSpawn == 0:
         FramesToSpawn -= 3
